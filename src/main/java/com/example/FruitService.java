@@ -2,6 +2,7 @@ package com.example;
 
 import jakarta.ejb.ApplicationException;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,39 +12,36 @@ import java.util.Optional;
 @ApplicationScoped
 public class FruitService {
 
+    @Inject
+    FruitRepository fruitRepository;
     public List<Fruit> list() {
-        return Fruit.listAll();
+        return fruitRepository.listAll();
     }
 
     public void add(Fruit fruit) {
-        fruit.persist();
+        fruitRepository.persist(fruit);
     }
     public void removeByName(String name) {
-        Fruit fruit = Fruit.find("name", name).firstResult();
-        fruit.delete();
+        fruitRepository.deleteByName(name);
     }
 
     public void removeById(Long id) {
-        Fruit fruit = Fruit.findById(id);
-        fruit.delete();
+        fruitRepository.deleteById(id);
     }
 
     public void update(Fruit fruit) {
-        Fruit fruit1 = Fruit.findById(fruit.id);
-        fruit1.name = fruit.name;
-        fruit1.description = fruit.description;
-        fruit1.persist();
+        fruitRepository.update(fruit);
     }
 
     public Optional<Fruit> get(String name) {
-        return Fruit.find("name", name).firstResultOptional();
+        return fruitRepository.findByName(name);
     }
 
     public Fruit findById(Long id) {
-        return Fruit.findById(id);
+        return fruitRepository.findById(id);
     }
 
     public Long count() {
-        return Fruit.count();
+        return fruitRepository.count();
     }
 }

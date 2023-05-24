@@ -22,7 +22,7 @@ public class FruitsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Fruit> getFruits() {
-        return Fruit.listAll();
+        return service.list();
     }
 
     @POST
